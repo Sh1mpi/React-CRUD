@@ -12,10 +12,28 @@ export function useProducts() {
         setProducts(prev=>[...prev,product])
     }
 
+    function updateProduct(product: IProduct){
+        setProducts(prev=>[...prev,product])
+    }
+
+    async function deleteProduct(id:number) {
+        try {
+            setLoading(true)
+            await axios.delete(`https://api.escuelajs.co/api/v1/products/${id}`)
+            const updatedProducts = products.filter(p => p.id !== id)
+            setProducts(updatedProducts)
+            setLoading(false)
+          } catch (e: unknown) {
+            const error = e as AxiosError
+            setLoading(false)
+            setError(error.message)
+          }
+    }
+
     async function fetchProducts() {
         try {
         setLoading(true)
-        const response = await axios.get<IProduct[]>('https://fakestoreapi.com/products?limit=15')
+        const response = await axios.get<IProduct[]>('https://api.escuelajs.co/api/v1/products?offset=0&limit=15')
         setProducts(response.data)
         setLoading(false)
         }
@@ -29,5 +47,6 @@ export function useProducts() {
         fetchProducts()
     },[])
     
-    return {products,error,loading,addProduct}
+    
+    return {products,error,loading,addProduct,deleteProduct,updateProduct}
 }
