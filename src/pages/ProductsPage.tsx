@@ -9,7 +9,7 @@ import { useProducts } from '../hooks/product';
 import { IProduct } from '../models';
 
 export function ProductPage() {
-    const {loading,products,error,addProduct} = useProducts()
+    const {loading,products,error,addProduct,deleteProduct} = useProducts()
     const {modal,open,close} = useContext(ModalContext)
 
     const createHandler = (product: IProduct)=> {
@@ -21,7 +21,7 @@ export function ProductPage() {
         <div className='container mx-auto max-w-2xl pt-5'>
         {loading && <Loader/>}
         {error && <ErrorMessage error={error}/>}
-        {products.map(product => <Product product={product} key={product.id}/>)}
+        {products.map(product => <Product product={product} deleteProduct={deleteProduct} key={product.id}/>)}
 
         {modal && <Modal title="Create new product" onClose={close}>
             <CreateProduct onCreate={createHandler}/>
