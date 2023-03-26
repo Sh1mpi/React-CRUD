@@ -12,6 +12,10 @@ export function useProducts() {
         setProducts(prev=>[...prev,product])
     }
 
+    function updateProduct(product: IProduct){
+        setProducts(prev=>[...prev,product])
+    }
+
     async function deleteProduct(id:number) {
         try {
             setLoading(true)
@@ -29,7 +33,7 @@ export function useProducts() {
     async function fetchProducts() {
         try {
         setLoading(true)
-        const response = await axios.get<IProduct[]>('https://api.escuelajs.co/api/v1/products?offset=0&limit=10')
+        const response = await axios.get<IProduct[]>('https://api.escuelajs.co/api/v1/products?offset=0&limit=15')
         setProducts(response.data)
         setLoading(false)
         }
@@ -44,5 +48,5 @@ export function useProducts() {
     },[])
     
     
-    return {products,error,loading,addProduct,deleteProduct}
+    return {products,error,loading,addProduct,deleteProduct,updateProduct}
 }
